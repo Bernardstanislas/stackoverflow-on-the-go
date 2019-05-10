@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('score');
             $table->unsignedInteger('viewCount');
             $table->longText('body');
-            $table->json('tags')->default([]);
+            $table->json('tags')->default("[]");
         });
     }
 

@@ -20,9 +20,8 @@ class CreateAnswersTable extends Migration
             $table->unsignedInteger('score');
             $table->unsignedInteger('viewCount');
             $table->longText('body');
-            $table->json('tags')->default([]);
+            $table->json('tags')->default("[]");
             $table->boolean('accepted')->default(false);
-            $table->unsignedInteger('score');
             $table->unsignedInteger('parent_post_id');
 
             $table->foreign('parent_post_id')->references('id')->on('posts');
