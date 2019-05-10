@@ -1,5 +1,6 @@
 <?php
 
+use App\Answer;
 use App\Post;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -18,11 +19,14 @@ class PostSeeder extends Seeder
     {
         $xmlFilePath = $xmlFilePath = dirname(__FILE__) . '/../xml/Posts.xml';
         DB::table('posts')->delete();
+        DB::table('answers')->delete();
         $reader = new XMLReader();
 
         $reader->open($xmlFilePath);
 
         $postsBuffer = [];
+        $answersBuffer = [];
+        $acceptedAnswerMap = [];
 
         while ($reader->read()) {
             if ($reader->name === 'row' && $reader->getAttribute('PostTypeId') === '1') {
@@ -35,12 +39,31 @@ class PostSeeder extends Seeder
                     'body' => $reader->getAttribute('Body'),
                     'viewCount' => $reader->getAttribute('ViewCount'),
                 ]);
-                if (count($postsBuffer) === $this->bufferSize) {
+                $acceptedAnswerMap[$reader->getAttribute('Id')] = $reader->getAttribute('AcceptedAnswerId');
+                if (count($postsBuffer) >= $this->bufferSize) {
                     Post::insert($postsBuffer);
                     $postsBuffer = [];
+                    Answer::insert($answersBuffer);
+                    $answersBuffer = [];
+                    $acceptedAnswerMap = [];
                 }
+            } elseif ($reader->name === 'row' && $reader->getAttribute('PostTypeId') === '2') {
+                $accepted = false;
+                if (isset($acceptedAnswerMap[$reader->getAttribute('ParentId')])) {
+                    $accepted = $reader->getAttribute('Id') === $acceptedAnswerMap[$reader->getAttribute('ParentId')];
+                }
+                array_push($answersBuffer, [
+                    'id' => $reader->getAttribute('Id'),
+                    'created_at' => Carbon::create($reader->getAttribute('CreationDate')),
+                    'updated_at' => Carbon::create($reader->getAttribute('LastEditDate')),
+                    'score' => $reader->getAttribute('Score'),
+                    'body' => $reader->getAttribute('Body'),
+                    'accepted' => $accepted,
+                    'parent_post_id' => $reader->getAttribute('ParentId')
+                ]);
             }
         }
         Post::insert($postsBuffer);
+        Answer::insert($answersBuffer);
     }
 }

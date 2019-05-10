@@ -16,13 +16,11 @@ class CreateAnswersTable extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('title');
-            $table->unsignedInteger('score');
-            $table->unsignedInteger('viewCount');
+            $table->unsignedBigInteger('score');
             $table->longText('body');
             $table->json('tags')->default("[]");
             $table->boolean('accepted')->default(false);
-            $table->unsignedInteger('parent_post_id');
+            $table->unsignedBigInteger('parent_post_id');
 
             $table->foreign('parent_post_id')->references('id')->on('posts');
         });

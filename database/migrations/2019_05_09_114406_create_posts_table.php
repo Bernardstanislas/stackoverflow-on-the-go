@@ -17,8 +17,8 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('title');
-            $table->unsignedInteger('score');
-            $table->unsignedInteger('viewCount');
+            $table->unsignedBigInteger('score');
+            $table->unsignedBigInteger('viewCount');
             $table->longText('body');
             $table->json('tags')->default("[]");
         });

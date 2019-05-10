@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Answer extends Model
 {
     protected $fillable = [
-        'title', 'score', 'viewCount', 'body', 'tags', 'accepted', 'score'
+        'score', 'body', 'tags', 'accepted'
     ];
 
     public function parentPost(): BelongsTo
