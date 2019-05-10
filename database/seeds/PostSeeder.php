@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class PostSeeder extends Seeder
 {
+    protected $bufferSize = 100;
+
     /**
      * Run the database seeds.
      *
@@ -20,9 +22,11 @@ class PostSeeder extends Seeder
 
         $reader->open($xmlFilePath);
 
+        $postsBuffer = [];
+
         while ($reader->read()) {
             if ($reader->name === 'row' && $reader->getAttribute('PostTypeId') === '1') {
-                Post::create([
+                array_push($postsBuffer, [
                     'id' => $reader->getAttribute('Id'),
                     'created_at' => Carbon::create($reader->getAttribute('CreationDate')),
                     'updated_at' => Carbon::create($reader->getAttribute('LastEditDate')),
@@ -31,7 +35,12 @@ class PostSeeder extends Seeder
                     'body' => $reader->getAttribute('Body'),
                     'viewCount' => $reader->getAttribute('ViewCount'),
                 ]);
+                if (count($postsBuffer) === $this->bufferSize) {
+                    Post::insert($postsBuffer);
+                    $postsBuffer = [];
+                }
             }
         }
+        Post::insert($postsBuffer);
     }
 }
