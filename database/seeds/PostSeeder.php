@@ -4,7 +4,6 @@ use App\Answer;
 use App\Post;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class PostSeeder extends Seeder
 {
@@ -18,8 +17,6 @@ class PostSeeder extends Seeder
     public function run()
     {
         $xmlFilePath = $xmlFilePath = dirname(__FILE__) . '/../xml/Posts.xml';
-        DB::table('posts')->delete();
-        DB::table('answers')->delete();
         $reader = new XMLReader();
 
         $reader->open($xmlFilePath);
