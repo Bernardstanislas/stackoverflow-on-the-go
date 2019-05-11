@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Sleimanx2\Plastic\Searchable;
 
 class Post extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'title', 'score', 'viewCount', 'body', 'tags'
     ];
