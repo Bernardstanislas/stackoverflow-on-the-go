@@ -1,6 +1,8 @@
 <?php
 
+use App\Post;
 use Illuminate\Foundation\Inspiring;
+use Sleimanx2\Plastic\Facades\Plastic;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,10 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('posts:index', function () {
+    $this->comment('Starting posts indexation in Elastic Search');
+    $this->info(Post::count() . ' posts to index');
+    Plastic::persist()->bulkSave(Post::all());
+    $this->comment('Done indexing posts');
+})->describe('Index Posts from database in the Elastic Search index');
