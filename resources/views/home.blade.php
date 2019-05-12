@@ -14,7 +14,7 @@
 </div>
 @if ($posts)
     @foreach ($posts as $post)
-        <p>{{ $post->title }}</p>
+        <p><a href="{{ route('show-post', ['id' => $post->id]) }}">{{ $post->title }}</a></p>
     @endforeach
 @endif
 

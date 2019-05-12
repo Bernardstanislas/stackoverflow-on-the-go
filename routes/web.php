@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'SearchController@search')->name('home');
+
+Route::get('/posts/{id}', 'PostController@show')->name('show-post');
