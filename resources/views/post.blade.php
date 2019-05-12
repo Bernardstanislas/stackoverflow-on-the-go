@@ -8,6 +8,9 @@
 </head>
 <body>
 <div>
+    <form method="GET" action="{{ route('home') }}">
+        <input name="query"/>
+    </form>
     <h1>{{ $post->title }}</h1>
     <div>
         {!! $post->body !!}

@@ -13,9 +13,11 @@
     </form>
 </div>
 @if ($posts)
+    <i>{{ $posts->result()->totalHits() }} posts found in {{ $posts->result()->took() }}ms</i>
     @foreach ($posts as $post)
         <p><a href="{{ route('show-post', ['id' => $post->id]) }}">{{ $post->title }}</a></p>
     @endforeach
+    {{ $posts->appends(['query' => $query])->links() }}
 @endif
 
 @if ($query && count($posts) === 0)
