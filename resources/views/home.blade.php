@@ -8,6 +8,18 @@
 </head>
 <body>
 <div>
+    <form method="GET" action="{{ route('home') }}">
+        <input name="query" value="{{ $query }}"/>
+    </form>
 </div>
+@if ($posts)
+    @foreach ($posts as $post)
+        <p>{{ $post->title }}</p>
+    @endforeach
+@endif
+
+@if ($query && count($posts) === 0)
+    No result for "{{ $query }}".
+@endif
 </body>
 </html>
