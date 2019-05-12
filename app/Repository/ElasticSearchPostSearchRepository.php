@@ -11,7 +11,7 @@ class ElasticSearchPostSearchRepository implements PostSearchRepository
     public function search(string $query)
     {
         return Post::search()
-            ->multiMatch(['title', 'body'], $query, ['fuzziness' => 'AUTO'])
+            ->multiMatch(['title'], $query, ['fuzziness' => 'AUTO'])
             ->sortBy('score')
             ->paginate();
     }
