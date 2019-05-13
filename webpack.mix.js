@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 
+mix.browserSync('stackoverflow-on-the-go.test');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
