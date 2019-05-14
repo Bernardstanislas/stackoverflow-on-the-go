@@ -1,27 +1,39 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-    <title>{{ $post->title }}</title>
-</head>
-<body>
-<div>
-    <form method="GET" action="{{ route('home') }}">
-        <input name="query"/>
-    </form>
-    <h1>{{ $post->title }}</h1>
-    <div>
-        {!! $post->body !!}
-    </div>
+@section('title', $post->title)
+
+@section('content')
+<div class="post">
+    <div class="title">{{ $post->title }}</div>
     <hr/>
+    <div class="question">
+        <div class="stats">
+            <p><b>{{ $post->score }}</b></p>
+        </div>
+        <div class="body">
+            {!! $post->body !!}
+        </div>
+    </div>
+    <br/>
+    <br/>
     @if (count($post->answers) === 0)
         <i>No answer to this post yet.</i>
+    @else
+        <div class="answers-count">{{ count($post->answers) }} Answer{{ count($post->answers) > 1 ? 's' : '' }}</div>
+        @foreach ($post->answers as $answer)
+            <hr/>
+            <div class="answer">
+                <div class="stats">
+                    <p><b>{{ $answer->score }}</b></p>
+                    @if ($answer->accepted)
+                    <p><b>&#10003;</b></p>
+                    @endif
+                </div>
+                <div class="body">
+                    {!! $answer->body !!}
+                </div>
+            </div>
+        @endforeach
     @endif
-    @foreach ($post->answers as $answer)
-        <div>{!! $answer->body !!}</div>
-    @endforeach
 </div>
-</body>
-</html>
+@endsection

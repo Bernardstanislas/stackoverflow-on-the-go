@@ -16,10 +16,10 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('query', '');
+        $query = $request->input('query');
         $posts = [];
 
-        if ($query !== '') {
+        if ($query !== null) {
             $posts = $this->postSearchRepository->search($query);
         }
 

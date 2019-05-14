@@ -5,6 +5,15 @@
   font-family: "Helvetica Neue", "Times New Roman";
 }
 
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #f1f4f4;
+  margin: 1em 0;
+  padding: 0;
+}
+
 .container {
   width: 1000px;
 }
@@ -62,5 +71,44 @@
   background: linear-gradient(to top, white 10%, rgba(255, 255, 255, 0) 20%);
   pointer-events: none;
   /* so the text is still selectable */
+}
+
+.empty {
+  height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post {
+  margin-top: 2rem;
+}
+
+.post .title {
+  font-size: 1.5rem;
+}
+
+.post .question,
+.post .answer {
+  display: flex;
+}
+
+.post .question .stats,
+.post .answer .stats {
+  width: 10%;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #abb;
+}
+
+.post .question .body,
+.post .answer .body {
+  width: 90%;
+  overflow-x: auto;
+}
+
+.post .answers-count {
+  font-size: 1.2rem;
+  color: #abb;
 }
 
