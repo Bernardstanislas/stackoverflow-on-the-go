@@ -13,5 +13,4 @@ mix.browserSync('stackoverflow-on-the-go.test');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.sass('resources/sass/app.scss', 'public/css');
