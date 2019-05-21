@@ -7,7 +7,7 @@
 @section('content')
 <div class="search-results">
     @if ($posts)
-        <i>{{ $posts->result()->totalHits() }} posts found in {{ $posts->result()->took() }}ms</i>
+        <i>{{ $posts->totalHits() }} posts found in {{ $posts->took() }}ms</i>
         <div class="posts">
             @foreach ($posts as $post)
                 <div class="post">
@@ -16,7 +16,6 @@
                 </div>
             @endforeach
         </div>
-        {{ $posts->appends(['query' => $query])->links() }}
     @endif
 
     @if ($query && count($posts) === 0)
