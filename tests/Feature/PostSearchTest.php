@@ -18,7 +18,7 @@ class PostSearchTest extends TestCase
 
         $result = $postSearchRepository->search('boot');
 
-        $this->assertEquals(1036, $result->result()->totalHits());
-        $this->assertEquals($result->result()->maxScore(), $result->first()->documentScore);
+        $this->assertEquals(2060, $result->totalHits());
+        $this->assertEquals($result->maxScore(), $result->first()->documentScore());
     }
 }

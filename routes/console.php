@@ -22,6 +22,6 @@ Artisan::command('inspire', function () {
 Artisan::command('posts:index', function () {
     $this->comment('Starting posts indexation in Elastic Search');
     $this->info(Post::count() . ' posts to index');
-    Plastic::persist()->bulkSave(Post::all());
+    Post::addAllToIndex();
     $this->comment('Done indexing posts');
 })->describe('Index Posts from database in the Elastic Search index');
