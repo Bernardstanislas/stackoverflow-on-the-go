@@ -25,6 +25,7 @@ class PostSeeder extends Seeder
         $answersBuffer = [];
         $acceptedAnswerMap = [];
 
+        print("Inserting posts..." . PHP_EOL);
         while ($reader->read()) {
             if ($reader->name === 'row' && $reader->getAttribute('PostTypeId') === '1') {
                 array_push($postsBuffer, [
@@ -40,11 +41,17 @@ class PostSeeder extends Seeder
                 if (count($postsBuffer) >= $this->bufferSize) {
                     Post::insert($postsBuffer);
                     $postsBuffer = [];
-                    Answer::insert($answersBuffer);
-                    $answersBuffer = [];
-                    $acceptedAnswerMap = [];
                 }
-            } elseif ($reader->name === 'row' && $reader->getAttribute('PostTypeId') === '2') {
+            }
+        }
+        Post::insert($postsBuffer);
+
+        $reader->close();
+        $reader->open($xmlFilePath);
+
+        print("Inserting answers..." . PHP_EOL);
+        while ($reader->read()) {
+            if ($reader->name === 'row' && $reader->getAttribute('PostTypeId') === '2') {
                 $accepted = false;
                 if (isset($acceptedAnswerMap[$reader->getAttribute('ParentId')])) {
                     $accepted = $reader->getAttribute('Id') === $acceptedAnswerMap[$reader->getAttribute('ParentId')];
@@ -58,9 +65,13 @@ class PostSeeder extends Seeder
                     'accepted' => $accepted,
                     'parent_post_id' => $reader->getAttribute('ParentId')
                 ]);
+                if (count($answersBuffer) >= $this->bufferSize) {
+                    Answer::insert($answersBuffer);
+                    $answersBuffer = [];
+                }
             }
         }
-        Post::insert($postsBuffer);
+
         Answer::insert($answersBuffer);
     }
 }
